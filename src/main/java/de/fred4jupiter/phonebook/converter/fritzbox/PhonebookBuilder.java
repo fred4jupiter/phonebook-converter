@@ -1,8 +1,6 @@
 package de.fred4jupiter.phonebook.converter.fritzbox;
 
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
+import de.fred4jupiter.phonebook.converter.util.PhoneNumberUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,30 +37,16 @@ public class PhonebookBuilder {
 
         Telephony telephony = new Telephony();
         if (StringUtils.isNotBlank(phoneHome)) {
-            telephony.addNumber(internationalizeNumber(phoneHome, internationalize), NumberType.home);
+            telephony.addNumber(PhoneNumberUtil.getInstance().internationalizeNumber(phoneHome, internationalize), NumberType.home);
         }
         if (StringUtils.isNotBlank(phoneMobile)) {
-            telephony.addNumber(internationalizeNumber(phoneMobile, internationalize), NumberType.mobile);
+            telephony.addNumber(PhoneNumberUtil.getInstance().internationalizeNumber(phoneMobile, internationalize), NumberType.mobile);
         }
 
         contact.setTelephony(telephony);
 
         phonebook.addContact(contact);
         return this;
-    }
-
-    private String internationalizeNumber(String phoneNumber, boolean internationalize) {
-        if (internationalize) {
-            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-            try {
-                Phonenumber.PhoneNumber swissNumberProto = phoneUtil.parse(phoneNumber, "DE");
-                return phoneUtil.format(swissNumberProto, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-            } catch (NumberParseException e) {
-                LOG.error("Cloud not i18n number=" + phoneNumber + ". cause: " + e.getMessage());
-            }
-        }
-
-        return phoneNumber;
     }
 
     public Phonebooks build() {

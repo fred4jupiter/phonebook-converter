@@ -6,9 +6,6 @@ import de.fred4jupiter.phonebook.converter.fritzbox.PhonebookBuilder;
 import de.fred4jupiter.phonebook.converter.fritzbox.Phonebooks;
 import de.fred4jupiter.phonebook.converter.xml.XmlCreatorService;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +31,11 @@ public class ExcelToFritzboxXmlService {
     @Value("classpath:/template/phonebook_template.xlsx")
     private Resource excelTemplateFile;
 
+    @Autowired
+    private ExcelContactMapper excelContactMapper;
+
     public void readExcelFileAndConvert(String phonebookName, String excelIn, String xmlOut, boolean internationalize) {
-        List<ExcelContact> excelContacts = excelImportService.importFromExcel(new File(excelIn), this::mapToExcelContact);
+        List<ExcelContact> excelContacts = excelImportService.importFromExcel(new File(excelIn), row -> excelContactMapper.mapToExcelContact(row));
 
         PhonebookBuilder phonebookBuilder = PhonebookBuilder.create().withName(phonebookName);
         excelContacts.forEach(contact -> {
@@ -44,41 +44,6 @@ public class ExcelToFritzboxXmlService {
 
         Phonebooks phonebooks = phonebookBuilder.build();
         xmlCreatorService.createFritzboxPhonebookXmlFile(phonebooks, new File(xmlOut));
-    }
-
-    private ExcelContact mapToExcelContact(Row row) {
-        if (row == null || row.getCell(0) == null) {
-            return null;
-        }
-
-        ExcelContact excelContact = new ExcelContact();
-        excelContact.setName(convertName(row.getCell(0).getStringCellValue()));
-        excelContact.setPhonePrefixHome(getNumericFieldAsString(row, 4));
-        excelContact.setPhoneHome(getNumericFieldAsString(row, 5));
-        excelContact.setPhonePrefixMobile(getNumericFieldAsString(row, 6));
-        excelContact.setPhoneMobile(getNumericFieldAsString(row, 7));
-        return excelContact;
-    }
-
-    private String convertName(String name) {
-        if (StringUtils.isBlank(name)) {
-            return "unknown";
-        }
-
-        if (name.contains(",")) {
-            String[] splitted = StringUtils.split(name, ",");
-            if (splitted.length == 1) {
-                return splitted[0].trim();
-            }
-            return splitted[1].trim() + " " + splitted[0].trim();
-        }
-
-        return name;
-    }
-
-    private String getNumericFieldAsString(Row row, int index) {
-        DataFormatter formatter = new DataFormatter();
-        return formatter.formatCellValue(row.getCell(index));
     }
 
     public void createExcelTemplateFile(String outputFile) {

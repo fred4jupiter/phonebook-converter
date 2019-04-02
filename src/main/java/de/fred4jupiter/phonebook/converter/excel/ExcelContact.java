@@ -59,4 +59,22 @@ public class ExcelContact {
     public String getCompletePhoneMobile() {
         return phonePrefixMobile + phoneMobile;
     }
+
+    public String getFirstname() {
+        if (name.contains(" ")) {
+            String[] splitted = name.split(" ");
+            return splitted[0];
+        }
+
+        return name;
+    }
+
+    public String getLastname() {
+        if (name.contains(" ")) {
+            String[] splitted = name.split(" ");
+            return splitted[1];
+        }
+
+        return name;
+    }
 }
