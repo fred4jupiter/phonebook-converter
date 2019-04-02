@@ -21,4 +21,8 @@ public class Phonebooks {
     public void setPhonebooks(List<Phonebook> phonebooks) {
         this.phonebooks = phonebooks;
     }
+
+    public void addPhonebook(Phonebook phonebook) {
+        this.phonebooks.add(phonebook);
+    }
 }

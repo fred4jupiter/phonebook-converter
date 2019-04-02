@@ -31,4 +31,8 @@ public class Phonebook {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void addContact(Contact contact) {
+        this.contacts.add(contact);
+    }
 }

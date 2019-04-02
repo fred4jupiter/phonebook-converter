@@ -1,6 +1,7 @@
 package de.fred4jupiter.phonebook.converter;
 
-import de.fred4jupiter.phonebook.converter.fritzbox.*;
+import de.fred4jupiter.phonebook.converter.fritzbox.PhonebookBuilder;
+import de.fred4jupiter.phonebook.converter.fritzbox.Phonebooks;
 import de.fred4jupiter.phonebook.converter.xml.XmlCreatorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,25 +18,7 @@ public class XmlCreatorServiceUT {
 
     @Test
     public void createXmlOutput() {
-        Phonebooks phonebooks = new Phonebooks();
-
-        Phonebook phonebook = new Phonebook();
-        phonebook.setName("test");
-        phonebooks.getPhonebooks().add(phonebook);
-
-        Contact contact = new Contact();
-
-        Person person = new Person();
-        person.setRealName("Fred Feuerstein");
-        contact.setPerson(person);
-
-        Telephony telephony = new Telephony();
-        telephony.addNumber("01234354787", NumberType.home);
-        telephony.addNumber("0171345654", NumberType.mobile);
-
-        contact.setTelephony(telephony);
-
-        phonebook.getContacts().add(contact);
+        Phonebooks phonebooks = PhonebookBuilder.create().withName("test").withContact("Fred Feuerstein", "01234354787", "0171345654").build();
 
         xmlCreatorService.createFritzboxPhonebookXmlFile(phonebooks, new File("target/output.xml"));
     }
