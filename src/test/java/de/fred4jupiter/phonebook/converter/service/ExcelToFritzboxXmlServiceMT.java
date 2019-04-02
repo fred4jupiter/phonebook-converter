@@ -20,6 +20,6 @@ public class ExcelToFritzboxXmlServiceMT {
 
     @Test
     public void convert() {
-        excelToFritzboxXmlService.readExcelFileAndConvert("d://Temp1/Telefon-Verzeichnis.xlsx", "target/phonebook.xml");
+        excelToFritzboxXmlService.readExcelFileAndConvert("test", "d://Temp1/Telefon-Verzeichnis.xlsx", "d://Temp1/phonebook.xml", false);
     }
 }

@@ -20,8 +20,10 @@ public class ShellCommands {
     }
 
     @ShellMethod("Converts a given Excel file to Fritzbox phonebook xml file.")
-    public String convertToFritzboxPhonebook(@ShellOption String inputFile, @ShellOption(defaultValue = "phonebook.xml") String outputFile) {
-        excelToFritzboxXmlService.readExcelFileAndConvert(inputFile, outputFile);
+    public String convertToFritzboxPhonebook(@ShellOption String inputFile, @ShellOption(defaultValue = "phonebook.xml") String outputFile,
+                                             @ShellOption(defaultValue = "test") String phonebookName,
+                                             @ShellOption(defaultValue = "false") boolean internationalize) {
+        excelToFritzboxXmlService.readExcelFileAndConvert(phonebookName, inputFile, outputFile, internationalize);
 
         return "Converted file '" + inputFile + "' to Fritzbox phonebook XML file '" + outputFile + "'";
     }

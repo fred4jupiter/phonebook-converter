@@ -34,12 +34,12 @@ public class ExcelToFritzboxXmlService {
     @Value("classpath:/template/phonebook_template.xlsx")
     private Resource excelTemplateFile;
 
-    public void readExcelFileAndConvert(String excelIn, String xmlOut) {
+    public void readExcelFileAndConvert(String phonebookName, String excelIn, String xmlOut, boolean internationalize) {
         List<ExcelContact> excelContacts = excelImportService.importFromExcel(new File(excelIn), this::mapToExcelContact);
 
-        PhonebookBuilder phonebookBuilder = PhonebookBuilder.create().withName("test");
+        PhonebookBuilder phonebookBuilder = PhonebookBuilder.create().withName(phonebookName);
         excelContacts.forEach(contact -> {
-            phonebookBuilder.withContact(contact.getName(), contact.getCompletePhoneHome(), contact.getCompletePhoneMobile());
+            phonebookBuilder.withContact(contact.getName(), contact.getCompletePhoneHome(), contact.getCompletePhoneMobile(), internationalize);
         });
 
         Phonebooks phonebooks = phonebookBuilder.build();
