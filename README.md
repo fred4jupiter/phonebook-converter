@@ -1,6 +1,11 @@
 # phonebook-converter
 Command line tool for creating Fritzbox Phonebook XML file from Excel.
 
+## Features
+
+* convert Excel to Fritzbox phonebook XML file
+* convert Excel to VCard files  
+
 ## Usage
 
 ### Build from the sources
