@@ -27,3 +27,7 @@ After that you can see the available commands with entering `help` and `enter`.
 
 Tested with Fritzbox 7490.
 
+## Screenshot
+
+![phonebook converter](src/docs/screenshot.jpg?raw=true "phonebook converter")
+
