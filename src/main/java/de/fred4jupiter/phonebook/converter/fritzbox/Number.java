@@ -1,14 +1,37 @@
 package de.fred4jupiter.phonebook.converter.fritzbox;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlValue;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Number {
 
+    @XmlAttribute(name = "prio")
     private Integer prio;
 
-    private String type;
+    @XmlAttribute(name = "type")
+    private NumberType numberType;
 
+    @XmlAttribute(name = "quickdial")
     private Integer quickdial;
 
+    @XmlAttribute(name = "id")
     private Integer id = 0;
+
+    @XmlValue
+    private String value;
+
+    public Number(Integer id, String value, NumberType numberType) {
+        this.id = id;
+        this.value = value;
+        this.numberType = numberType;
+    }
+
+    public String getValue() {
+        return value;
+    }
 
     public Integer getPrio() {
         return prio;
@@ -18,12 +41,12 @@ public class Number {
         this.prio = prio;
     }
 
-    public String getType() {
-        return type;
+    public NumberType getNumberType() {
+        return numberType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setNumberType(NumberType numberType) {
+        this.numberType = numberType;
     }
 
     public Integer getQuickdial() {

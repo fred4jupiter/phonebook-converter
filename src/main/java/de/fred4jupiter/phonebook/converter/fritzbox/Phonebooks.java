@@ -11,7 +11,7 @@ import java.util.List;
 @XmlRootElement(name = "phonebooks")
 public class Phonebooks {
 
-    @XmlElement(name = "phonebooks")
+    @XmlElement(name = "phonebook")
     private List<Phonebook> phonebooks = new ArrayList<>();
 
     public List<Phonebook> getPhonebooks() {

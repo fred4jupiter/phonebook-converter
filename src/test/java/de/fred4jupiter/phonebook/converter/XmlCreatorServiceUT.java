@@ -1,9 +1,6 @@
 package de.fred4jupiter.phonebook.converter;
 
-import de.fred4jupiter.phonebook.converter.fritzbox.Contact;
-import de.fred4jupiter.phonebook.converter.fritzbox.Person;
-import de.fred4jupiter.phonebook.converter.fritzbox.Phonebook;
-import de.fred4jupiter.phonebook.converter.fritzbox.Phonebooks;
+import de.fred4jupiter.phonebook.converter.fritzbox.*;
 import de.fred4jupiter.phonebook.converter.xml.XmlCreatorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +20,7 @@ public class XmlCreatorServiceUT {
         Phonebooks phonebooks = new Phonebooks();
 
         Phonebook phonebook = new Phonebook();
+        phonebook.setName("test");
         phonebooks.getPhonebooks().add(phonebook);
 
         Contact contact = new Contact();
@@ -30,6 +28,12 @@ public class XmlCreatorServiceUT {
         Person person = new Person();
         person.setRealName("Fred Feuerstein");
         contact.setPerson(person);
+
+        Telephony telephony = new Telephony();
+        telephony.addNumber("01234354787", NumberType.home);
+        telephony.addNumber("0171345654", NumberType.mobile);
+
+        contact.setTelephony(telephony);
 
         phonebook.getContacts().add(contact);
 
