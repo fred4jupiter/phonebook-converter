@@ -21,7 +21,7 @@ public class XmlCreatorService {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(phonebooks, outputFile);
-            marshaller.marshal(phonebooks, System.out);
+//            marshaller.marshal(phonebooks, System.out);
         }   catch(JAXBException e) {
             LOG.error(e.getMessage(), e);
         }
