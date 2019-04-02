@@ -37,6 +37,6 @@ public class XmlCreatorServiceUT {
 
         phonebook.getContacts().add(contact);
 
-        xmlCreatorService.createXmlFile(phonebooks, new File("target/output.xml"));
+        xmlCreatorService.createFritzboxPhonebookXmlFile(phonebooks, new File("target/output.xml"));
     }
 }

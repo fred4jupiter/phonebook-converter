@@ -15,7 +15,7 @@ public class XmlCreatorService {
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlCreatorService.class);
 
-    public void createXmlFile(Phonebooks phonebooks, File outputFile) {
+    public void createFritzboxPhonebookXmlFile(Phonebooks phonebooks, File outputFile) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(Phonebooks.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
