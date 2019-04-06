@@ -5,9 +5,10 @@ import de.fred4jupiter.phonebook.converter.excel.ExcelImportService;
 import de.fred4jupiter.phonebook.converter.util.PhoneNumberUtil;
 import ezvcard.Ezvcard;
 import ezvcard.VCard;
-import ezvcard.VCardDataType;
 import ezvcard.VCardVersion;
+import ezvcard.parameter.AddressType;
 import ezvcard.parameter.TelephoneType;
+import ezvcard.property.Address;
 import ezvcard.property.StructuredName;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +49,15 @@ public class ExcelToVCardService {
             }
             if (StringUtils.isNotBlank(excelContact.getCompletePhoneMobile())) {
                 vcard.addTelephoneNumber(PhoneNumberUtil.getInstance().internationalizeNumber(excelContact.getCompletePhoneMobile(), internationalize), TelephoneType.CELL);
+            }
+
+            if (excelContact.hasAddress()) {
+                Address address = new Address();
+                address.setStreetAddress(excelContact.getStreet());
+                address.setPostalCode(excelContact.getPostalCode());
+                address.setRegion(excelContact.getCity());
+                address.getTypes().add(AddressType.HOME);
+                vcard.addAddress(address);
             }
 
             String vcardContent = Ezvcard.write(vcard).version(VCardVersion.V4_0).go();

@@ -20,6 +20,7 @@ public class ExcelToVCardServiceMT {
 
     @Test
     public void convert() {
-        excelToVCardService.readExcelFileAndConvertToVCard("d://Temp1/Telefon-Verzeichnis.xlsx", "d://Temp2", false);
+//        excelToVCardService.readExcelFileAndConvertToVCard("d://Temp1/Telefon-Verzeichnis.xlsx", "d://Temp2", false);
+        excelToVCardService.readExcelFileAndConvertToVCard("d://Temp1/phonebook_template.xlsx", "d://Temp2", false);
     }
 }

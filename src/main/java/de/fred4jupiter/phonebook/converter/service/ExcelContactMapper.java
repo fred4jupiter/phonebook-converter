@@ -16,6 +16,9 @@ public class ExcelContactMapper {
 
         ExcelContact excelContact = new ExcelContact();
         excelContact.setName(convertName(row.getCell(0).getStringCellValue()));
+        excelContact.setStreet(getNumericFieldAsString(row, 1));
+        excelContact.setPostalCode(getNumericFieldAsString(row, 2));
+        excelContact.setCity(getNumericFieldAsString(row, 3));
         excelContact.setPhonePrefixHome(getNumericFieldAsString(row, 4));
         excelContact.setPhoneHome(getNumericFieldAsString(row, 5));
         excelContact.setPhonePrefixMobile(getNumericFieldAsString(row, 6));

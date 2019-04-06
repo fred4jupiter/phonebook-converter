@@ -1,8 +1,16 @@
 package de.fred4jupiter.phonebook.converter.excel;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ExcelContact {
 
     private String name;
+
+    private String street;
+
+    private String postalCode;
+
+    private String city;
 
     private String phonePrefixHome;
 
@@ -76,5 +84,33 @@ public class ExcelContact {
         }
 
         return name;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public boolean hasAddress() {
+        return StringUtils.isNotBlank(street) && StringUtils.isNotBlank(postalCode) && StringUtils.isNotBlank(city);
     }
 }

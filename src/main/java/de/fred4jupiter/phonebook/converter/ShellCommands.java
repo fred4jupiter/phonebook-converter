@@ -2,6 +2,7 @@ package de.fred4jupiter.phonebook.converter;
 
 import de.fred4jupiter.phonebook.converter.service.ExcelToFritzboxXmlService;
 import de.fred4jupiter.phonebook.converter.service.ExcelToVCardService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -33,9 +34,18 @@ public class ShellCommands {
     }
 
     @ShellMethod("Converts a given Excel file to VCard files.")
-    public String convertToVCard(@ShellOption String inputFile, @ShellOption String outputFolder, @ShellOption(defaultValue = "false") boolean internationalize) {
-        excelToVCardService.readExcelFileAndConvertToVCard(inputFile, outputFolder, internationalize);
+    public String convertToVCard(@ShellOption String inputFile, @ShellOption(defaultValue = "") String outputFolder, @ShellOption(defaultValue = "false") boolean internationalize) {
 
-        return "Converted file '" + inputFile + "' to VCard files in  folder '" + outputFolder + "'";
+        final String outFolder = getOutputFolder(outputFolder);
+        excelToVCardService.readExcelFileAndConvertToVCard(inputFile, outFolder, internationalize);
+
+        return "Converted file '" + inputFile + "' to VCard files in  folder '" + outFolder + "'";
+    }
+
+    private String getOutputFolder(String outFolder) {
+        if (StringUtils.isBlank(outFolder)) {
+            return System.getProperty("user.dir");
+        }
+        return outFolder;
     }
 }
