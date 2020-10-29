@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,8 +36,10 @@ public class ExcelToVCardService {
     public void readExcelFileAndConvertToVCard(String excelIn, String outFolder, boolean internationalize) {
         List<ExcelContact> excelContacts = excelImportService.importFromExcel(new File(excelIn), row -> excelContactMapper.mapToExcelContact(row));
 
+        final List<VCard> allVCards = new ArrayList<>();
+
         excelContacts.forEach(excelContact -> {
-            VCard vcard = new VCard();
+            final VCard vcard = new VCard();
 
             StructuredName structuredName = new StructuredName();
             structuredName.setFamily(excelContact.getLastname());
@@ -59,13 +62,14 @@ public class ExcelToVCardService {
                 address.getTypes().add(AddressType.HOME);
                 vcard.addAddress(address);
             }
-
-            String vcardContent = Ezvcard.write(vcard).version(VCardVersion.V4_0).go();
-            try {
-                FileUtils.writeStringToFile(new File(outFolder + File.separator + excelContact.getName() + ".vcf"), vcardContent, "UTF-8");
-            } catch (IOException e) {
-                LOG.error(e.getMessage());
-            }
+            allVCards.add(vcard);
         });
+
+        String vcardContent = Ezvcard.write(allVCards).version(VCardVersion.V2_1).go();
+        try {
+            FileUtils.writeStringToFile(new File(outFolder + File.separator + "phonebook_export.vcf"), vcardContent, "UTF-8");
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
+        }
     }
 }
